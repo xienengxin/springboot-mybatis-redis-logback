@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.ShoesMapper">
+	
+	<resultMap id="ShoesResultMap" type="com.example.model.Shoes">
+		<id column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="subtitle" property="subtitle" />
+		<result column="type" property="type"/>
+		<result column="subtype" property="subtype"/>
+		<result column="price" property="price"/>
+		<result column="brand" property="brand"/>
+		<result column="details" property="details"/>
+		<result column="pic" property="pic"/>
+		<result column="stock" property="stock"/>
+	</resultMap>
+	
+	<select id="findAllShoes" resultMap="ShoesResultMap">
+		select id,title,subtitle,type,subtype,price,brand,details,pic,stock from shoes
+	</select>
+	
+	<select id="searchShoes"  parameterType="String" resultMap="ShoesResultMap">
+		select id,title,subtitle,type,subtype,price,brand,details,pic,stock from shoes where type=#{type} and subtype=#{subtype}
+	</select>
+	
+	<select id="findOneShoes"  parameterType="int" resultMap="ShoesResultMap">
+		select id,title,subtitle,type,subtype,price,brand,details,pic,stock from shoes where id=#{id}
+	</select>
+	
+	<select id="searchLimitShoes"  parameterType="String" resultMap="ShoesResultMap">
+		select id,title,subtitle,type,subtype,price,brand,details,pic,stock from shoes where type=#{txt} or subtype=#{txt}
+	</select>
+	
+	<select id="searchShoesByBrand" parameterType="String" resultMap="ShoesResultMap">
+		select id,title,subtitle,type,subtype,price,brand,details,pic,stock from shoes where brand=#{txt}
+	</select>
+	
+	<select id="findLimitShoes" parameterType="int" resultMap="ShoesResultMap">
+		select id,title,subtitle,type,subtype,price,brand,details,pic,stock from shoes limit #{limitnum}
+	</select>
+	
+	<update id="updateStock" parameterType="int">
+		update shoes set stock=stock-#{num} where id = #{id}
+	</update>
+
+	<update id="updateShoes" parameterType="com.example.model.Shoes">
+        update shoes set
+        title=#{title},subtitle=#{subtitle},type=#{type}, 
+        subtype=#{subtype},price=#{price},brand=#{brand},details=#{details},
+        pic=#{pic},stock=#{stock} where id=#{id}
+    </update>
+	
+	<insert id="insertShoes" parameterType="com.example.model.Shoes" useGeneratedKeys="true" keyProperty="id">
+		insert Shoes(title,subtitle,type,subtype,price,brand,details,pic,stock)
+			values(#{title},#{subtitle},#{type},#{subtype},#{price},#{brand},#{details},#{pic},#{stock})
+	</insert>
+	
+	<delete id="deleteShoes" parameterType="int">
+		delete from shoes where id=#{id}
+	</delete>
+</mapper>

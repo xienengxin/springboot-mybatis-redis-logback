@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.UserMapper">
+	
+	<resultMap id="UserResultMap" type="com.example.model.User">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="password" property="password" />
+		<result column="address" property="address" />
+		<result column="phone" property="phone"/>
+		<result column="level" property="level"/>
+		
+	</resultMap>
+	
+	<select id="getAllUsers" resultMap="UserResultMap">
+		select id, name, password,address,phone,level from user
+	</select>
+	
+	<select id="getOneUser" resultMap="UserResultMap" >
+		select id, name, password,address,phone,level from user where name=#{username} and password=#{password}
+	</select>
+	
+	<insert id="insertUser" parameterType="com.example.model.User" useGeneratedKeys="true" keyProperty="id">
+		insert into user(name,password,phone,level) values(#{name},#{password},#{phone},0)
+	</insert>
+	
+	<update id="updateUser" parameterType="String">
+		update User set password=#{password} where name=#{username}
+	</update>
+	
+	<select id="selectAdminUser" resultMap="UserResultMap">
+		select id, name, password,address,phone,level from user where name=#{username} and password=#{password} and level=1
+	</select>
+	
+	<select id="getUserId" parameterType="String" resultMap="UserResultMap">
+		select id,name,password,address,phone,level from User where name=#{username} 
+	</select>
+	
+</mapper>
