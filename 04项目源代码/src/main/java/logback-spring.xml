@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true"  scanPeriod="60 seconds" debug="false">
+   <contextName>logback-mybatis</contextName>
+   <!-- 定义日志文件 输入位置 -->  
+    <property name="log.path" value="my-mybatis.log" />
+   <!-- 自定义输出  -->
+   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+   </appender>
+   
+   <!--输出到文件-->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logback.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+    </root>
+    <logger name="com.example.controller" level="debug" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="com.example.mapper" level="debug" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file" />
+    </logger>
+    
+</configuration>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.OrdersMapper">
+	
+	<resultMap id="ordersResultMap" type="com.example.model.Orders">
+		<id column="id" property="id" />
+		<result column="user_id" property="user_id"/>
+		<result column="shoes_id" property="shoes_id"/>
+		<result column="num" property="num"/>
+		<result column="arrivetime" property="arrivetime"/>
+		<result column="ordertime" property="ordertime" />
+		<result column="state" property="state" />
+		<result column="size" property="size"/>
+		<result column="price" property="price"/>
+		
+	</resultMap>
+	
+	<!-- <select id="searchOrders" parameterType="int" resultMap="ordersResultMap">
+		select id,user_id,shoes_id,num,state,price,ordertime,arrivetime,size from orders where user_id=#{id}
+	</select> -->
+	
+	<select id="findAllOrders" resultMap="ordersResultMap">
+		select id,user_id,shoes_id,num,state,price,ordertime,arrivetime,size from orders 
+	</select>
+	
+	<insert id="insertOrders" parameterType="com.example.model.Orders" useGeneratedKeys="true" keyProperty="id">
+		insert into orders(user_id,shoes_id,num,arrivetime,ordertime,state,size,price) 
+			values(#{user_id},#{shoes_id},#{num},#{arrivetime},#{ordertime},#{state},#{size},#{price})
+	</insert>
+	
+	<select id="findUserOrders"  resultMap="ordersResultMap">
+		select id,user_id,shoes_id,num,state,price,ordertime,arrivetime,size from orders where user_id=#{user_id} and ordertime=#{ordertime}
+	</select>
+	
+	<!-- <update id="updateOrders" parameterType="com.example.model.Orders">
+		update orders set arrivetime=#{arrivetime},state=#{state} where id=#{id}
+	</update> -->
+	
+	<delete id="deleteOrders" parameterType="int">
+		delete from orders where id=#{id}
+	</delete>
+	
+	
+	
+	
+</mapper>
